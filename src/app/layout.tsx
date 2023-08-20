@@ -1,6 +1,8 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="max-w-5xl mx-auto">{children}</div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header />
+          <div className="max-w-5xl mx-auto">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,6 +1,12 @@
 import { Post } from "@prisma/client";
 import React from "react";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 const getPosts = async (): Promise<Post[]> => {
   const res = await fetch("http://localhost:3000/api/post", {
@@ -19,15 +25,25 @@ const CardPostList = async () => {
   if (posts.length === 0)
     return <p className="text-3xl text-gray-500">Nenhum post disponivel.</p>;
   return (
-    <div className="my-24 grid grid-cols-3 gap-4 ">
-      {posts.map(({ id, title, subject, description, author }) => (
-        <Card key={id}>
-          <CardHeader>
-            <CardTitle>{title}</CardTitle>
+    <div className="mt-12 grid grid-cols-3 gap-4">
+      {posts.map(({ id, title, subject, description, author, created_at }) => (
+        <Card key={id} className="relative">
+          <CardHeader className="min-h-[252px]">
+            <CardTitle>
+              <span>{title}</span>
+            </CardTitle>
             <p>{subject}</p>
             <CardDescription>{description}</CardDescription>
-            <p className="text-sm text-green-500">{author}</p>
           </CardHeader>
+
+          <CardFooter className="justify-between">
+            <p className="text-sm text-green-500">{author}</p>
+            <span className="text-sm text-gray-600">
+              {new Date(created_at).toLocaleDateString("pt-BR", {
+                dateStyle: "short",
+              })}
+            </span>
+          </CardFooter>
         </Card>
       ))}
     </div>

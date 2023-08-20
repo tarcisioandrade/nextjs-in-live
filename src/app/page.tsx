@@ -1,13 +1,13 @@
 import CardPostList from "@/components/CardPostList";
 import FormPosts from "@/components/FormPosts";
+import PostSkeleton from "@/components/PostSkeleton";
 import { Suspense } from "react";
 
 export default async function Home() {
   return (
-    <main className="mt-24">
+    <main className="my-12">
       <FormPosts />
-
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<PostSkeleton />}>
         <CardPostList />
       </Suspense>
     </main>

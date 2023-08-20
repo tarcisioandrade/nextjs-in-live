@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Your default theme */
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+}
+
+[class="dark"] {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+}
+
 body {
-  color: #fff;
-  background: #111;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
 }

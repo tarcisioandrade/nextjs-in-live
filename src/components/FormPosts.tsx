@@ -5,15 +5,19 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { Post } from "@prisma/client";
 import { useRouter } from "next/navigation";
-
-type FormPostsProps = {
-  refetchPost: () => Promise<Post[]>;
-};
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const FormPosts = () => {
   const [title, setTitle] = useState<string | null>(null);
   const [subject, setSubject] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
+  const [modalShow, setModalShow] = useState(false);
   const router = useRouter();
 
   const submit = async (e: React.FormEvent) => {
@@ -24,31 +28,45 @@ const FormPosts = () => {
     });
 
     if (res.ok) {
-      window.alert("Post Criado.");
       router.refresh();
+      setModalShow(false);
     }
-    console.log("res", res);
   };
 
   return (
-    <form className="flex max-w-2xl flex-col gap-4" onSubmit={submit}>
-      <h1 className="text-lg">Adicione um Post</h1>
-      <div className="grid gap-4">
-        <Input
-          placeholder="Titulo"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-        <Input
-          placeholder="Assunto"
-          onChange={({ target }) => setSubject(target.value)}
-        />
+    <Dialog open={modalShow} onOpenChange={setModalShow}>
+      <div className="flex items-center justify-between">
+        <span className="text-2xl">Postados Recentemente</span>
+        <DialogTrigger asChild>
+          <Button>Adicionar Post</Button>
+        </DialogTrigger>
       </div>
-      <Textarea
-        placeholder="Descrição"
-        onChange={({ target }) => setDescription(target.value)}
-      />
-      <Button>Adicionar</Button>
-    </form>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Adicione um Post</DialogTitle>
+        </DialogHeader>
+        <form className="flex max-w-2xl flex-col gap-4" onSubmit={submit}>
+          <div className="grid gap-4">
+            <Input
+              placeholder="Titulo"
+              onChange={({ target }) => setTitle(target.value)}
+              required
+            />
+            <Input
+              placeholder="Assunto"
+              onChange={({ target }) => setSubject(target.value)}
+              required
+            />
+          </div>
+          <Textarea
+            placeholder="Descrição"
+            onChange={({ target }) => setDescription(target.value)}
+            required
+          />
+          <Button>Adicionar</Button>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 };
 
