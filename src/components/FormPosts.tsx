@@ -35,12 +35,9 @@ const FormPosts = () => {
 
   return (
     <Dialog open={modalShow} onOpenChange={setModalShow}>
-      <div className="flex items-center justify-between">
-        <span className="text-2xl">Postados Recentemente</span>
-        <DialogTrigger asChild>
-          <Button>Adicionar Post</Button>
-        </DialogTrigger>
-      </div>
+      <DialogTrigger asChild>
+        <Button>Adicionar Post</Button>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Adicione um Post</DialogTitle>

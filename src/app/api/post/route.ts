@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       description,
       subject,
       title,
-      author: user.email,
+      authorId: user.id,
     },
   });
 
@@ -29,7 +29,15 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    include: {
+      User: {
+        select: {
+          email: true,
+        },
+      },
+    },
+  });
 
   return NextResponse.json(posts);
 }
